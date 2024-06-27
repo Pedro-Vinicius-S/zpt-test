@@ -55,6 +55,17 @@ INNER JOIN user_department u_d ON u_d.user = user.id
 INNER JOIN department dept ON u_d.department = dept.id
 WHERE user.username = 'zpt'
 ```
+5) Resposta
+
+SELECT dept.id
+FROM department dept
+WHERE EXISTS (
+    SELECT dept.id
+    FROM user u
+    INNER JOIN user_department u_d ON u_d.user = u.id
+    WHERE u.username = 'zpt' AND u_d.department = dept.id
+);
+
 
 6) A classe `User` tem o método `setDb()` que recebe uma conexão com o banco de dados. As classes `Company` e `Department` precisam ter esse mesmo método, idêntico. Implemente.
 
@@ -65,3 +76,6 @@ WHERE user.username = 'zpt'
 9) Crie a classe `CompanyClient`, que é uma `Company` que, além do `id`, tem um número chamado `registration`. A saudação deve exibir o `id` e o `registration`.
 
 10) Qual commit introduziu [este erro](./src/Department.php#L10)? Explique e corrija o erro.
+
+10) Resposta
+Pelo Gitlens vi a mensagem, "docs(department): reminder to fix undefined type" e pela minha análise o problema pode ser a criação de uma nova instância de User sem parâmetros, o que pode não ser desejado se houver dependências que precisam ser injetadas no construtor, logo minha solução foi usar injeção de dependência no construtor.
